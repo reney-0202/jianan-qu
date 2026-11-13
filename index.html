@@ -70,7 +70,8 @@
   .hero .slogan { margin-top: 6px; color: var(--gold); font-size: 15px; }
 
   nav.main { background: var(--red-dark); position: sticky; top: 0; z-index: 20; box-shadow: 0 2px 6px rgba(0,0,0,.15); }
-  nav.main .wrap { display: flex; overflow-x: auto; }
+  nav.main .wrap { display: flex; overflow-x: auto; scrollbar-width: none; }
+  nav.main .wrap::-webkit-scrollbar { display: none; }
   nav.main a { color: #fff; padding: 12px 18px; white-space: nowrap; font-size: 15px; }
   nav.main a:hover { background: rgba(255,255,255,.14); text-decoration: none; }
 
@@ -170,6 +171,17 @@
   .leader b { display: block; }
   .leader span { font-size: 13px; color: var(--muted); }
 
+  /* 政务表彰 */
+  .honor { display: flex; gap: 22px; align-items: center; background: linear-gradient(135deg, #fffdf5, #fff1cc); border: 2px solid #e0b84a; position: relative; overflow: hidden; }
+  .honor::before { content: "光荣榜"; position: absolute; right: -34px; top: 18px; transform: rotate(45deg); background: var(--red); color: var(--gold); font-size: 13px; padding: 3px 44px; letter-spacing: 3px; }
+  .honor .medal { font-size: 72px; flex: none; line-height: 1; filter: drop-shadow(0 4px 6px rgba(184,134,11,.4)); }
+  .honor .stars { color: #f5a623; font-size: 24px; letter-spacing: 4px; }
+  .honor h3 { margin: 2px 0 6px; font-size: 26px; font-family: "SimSun", "Songti SC", "STSong", serif; }
+  .honor h3 span { color: var(--red); font-size: 34px; letter-spacing: 4px; }
+  .honor ul { margin: 6px 0 10px; padding-left: 20px; font-size: 15px; }
+  .honor .cite { font-size: 13px; color: #8a6d1a; }
+  @media (max-width: 600px) { .honor { flex-direction: column; text-align: center; } .honor ul { text-align: left; } }
+
   /* 弹窗 */
   .mask { position: fixed; inset: 0; background: rgba(0,0,0,.5); display: none; align-items: center; justify-content: center; z-index: 50; padding: 16px; }
   .mask.on { display: flex; }
@@ -260,6 +272,7 @@
     <a href="#news">通知公告</a>
     <a href="#cert">证照打印</a>
     <a href="#mail">区长信箱</a>
+    <a href="#honor">政务表彰</a>
     <a href="#leaders">领导班子</a>
   </div>
 </nav>
@@ -346,6 +359,27 @@
       <div class="dodge-zone" id="dodge-zone">
         <span class="hint">对服务不满意？请点击下方按钮投诉 👇</span>
         <button type="button" class="btn ghost" id="dodge">我要投诉</button>
+      </div>
+    </div>
+  </section>
+
+  <section id="honor">
+    <h2 class="title">政务表彰 <small>经区表彰办全体成员（共 1 人）一致通过</small></h2>
+    <div class="card honor">
+      <div class="medal" aria-hidden="true">🏅</div>
+      <div>
+        <div class="stars" aria-label="五星">★★★★★</div>
+        <h3>五星好市民：<span>嵇志黑</span></h3>
+        <div>建安区市政服务中心决定，授予 <strong>嵇志黑</strong> 同志“五星好市民”荣誉称号，主要事迹如下：</div>
+        <ul>
+          <li>常年坚持在办事大厅排队，是全区唯一排到过窗口的人（虽然窗口没人）；</li>
+          <li>过马路坚持等红灯，哪怕红绿灯坏了三天；</li>
+          <li>主动把小区门口的共享单车摆成一条直线，误差不超过 2 毫米；</li>
+          <li>对本中心服务给出五星好评，且不是我们自己刷的。</li>
+        </ul>
+        <button type="button" class="btn" id="honor-btn">👏 为 TA 鼓掌</button>
+        <span id="honor-count" style="margin-left:10px;color:var(--muted);font-size:14px">已有 0 人鼓掌</span>
+        <div class="cite">＊奖励：锦旗一面（自费）、与咪主任合影一次（需猫同意）。本表彰纯属恶搞，无任何效力。</div>
       </div>
     </div>
   </section>
@@ -664,6 +698,13 @@
     if (!q) return;
     inp.value = ''; say(q, 'me');
     setTimeout(function () { say(reply(q), 'bot'); }, 500);
+  });
+
+  /* ---------- 政务表彰 ---------- */
+  var claps = 0;
+  $('honor-btn').addEventListener('click', function () {
+    claps++;
+    $('honor-count').textContent = '已有 ' + fmt(claps) + ' 人鼓掌' + (claps >= 10 ? '（都是你一个人）' : '');
   });
 
   /* ---------- 瞎编的访问量 ---------- */
